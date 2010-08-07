@@ -72,8 +72,6 @@ public class SOSLog {
 
     private static SOSLog _instance;
 
-    private static AutoResetEvent semaphore = new AutoResetEvent(false);
-
     /// <summary>
     /// The singleton instance for the logger.
     /// </summary>
@@ -105,36 +103,29 @@ public class SOSLog {
     public void Connect(String host = "localhost", int port = 4444) {
         _endPoint = new DnsEndPoint(host, port);
         _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        
+
         SocketAsyncEventArgs args = new SocketAsyncEventArgs();
         args.UserToken = _socket;
         args.RemoteEndPoint = _endPoint;
-        args.Completed += new EventHandler<SocketAsyncEventArgs>(OnConnect);
+        args.Completed += (s, e) => {
+            _connected = (e.SocketError == SocketError.Success);
+
+            if (!_connected) {
+                //Debug.WriteLine("Socket Connect Error: {0}", new String[] { e.SocketError.ToString() });
+            }
+        };
 
         _socket.ConnectAsync(args);
-        semaphore.WaitOne();
-
-        if (args.SocketError != SocketError.Success) {
-            Debug.WriteLine("Socket Connect Error: {0}", new String[]{ args.SocketError.ToString() });
-        }
     }
 
+    /// <summary>
+    /// This method disconnects from the socket server.
+    /// </summary>
     public void Disconnect() {
         if (_socket != null) {
             _socket.Close();
         }
         
-    }
-
-    private void OnConnect(object sender, SocketAsyncEventArgs e) {
-        semaphore.Set();
-        _connected = (e.SocketError == SocketError.Success);
-
-        //Debug.WriteLine("Connected: {0}", new String[] { _connected.ToString() });
-    }
-
-    private void OnSendComplete(object sender, SocketAsyncEventArgs e) {
-        //Debug.WriteLine("Sent was successful: " + (e.SocketError == SocketError.Success).ToString());
     }
 
     /// <summary>
@@ -191,7 +182,12 @@ public class SOSLog {
         args.SetBuffer(byteArray, 0, byteArray.Length);
         args.UserToken = _socket;
         args.RemoteEndPoint = _endPoint;
-        args.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendComplete);
+        args.Completed += (s, e) => {
+            if (e.SocketError != SocketError.Success) {
+                _connected = false;
+                _socket.Close();
+            }
+        };
 
         _socket.SendAsync(args);
     }
