@@ -24,6 +24,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 /// <summary>
 /// This class is used to send logs to the SOS Max Socket Output Server - http://sos.powerflasher.com/
@@ -87,9 +88,13 @@ public class SOSLog {
 
     private DnsEndPoint _endPoint;
 
+    private Boolean _connecting = false;
+
     private Socket _socket;
 
     private Boolean _connected = false;
+
+    private List<HistoryItem> _history = new List<HistoryItem>();
 
     private SOSLog() {
 
@@ -103,15 +108,23 @@ public class SOSLog {
     public void Connect(String host = "localhost", int port = 4444) {
         _endPoint = new DnsEndPoint(host, port);
         _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        _connecting = true;
 
         SocketAsyncEventArgs args = new SocketAsyncEventArgs();
         args.UserToken = _socket;
         args.RemoteEndPoint = _endPoint;
         args.Completed += (s, e) => {
             _connected = (e.SocketError == SocketError.Success);
+            _connecting = false;
 
             if (!_connected) {
-                //Debug.WriteLine("Socket Connect Error: {0}", new String[] { e.SocketError.ToString() });
+                Debug.WriteLine("Socket Connect Error: {0}", new String[] { e.SocketError.ToString() });
+            } else {
+                foreach (HistoryItem item in _history) {
+                    Log(item.Log, item.Level);
+                }
+
+                _history.Clear();
             }
         };
 
@@ -135,6 +148,10 @@ public class SOSLog {
     /// <param name="level">This is the level which you want the log to display.</param>
     public void Log(String log, String level = "DEBUG") {
         if (!IsConnected) {
+            if (_connecting) {
+                _history.Add(new HistoryItem(log, level));
+            }
+
             return;
         }
 
@@ -220,3 +237,40 @@ public class SOSLog {
     }
 
 }
+
+
+#region HistoryItemClass
+
+/// <summary>
+/// This class contains a log that is made while the socket connection has not been made, but is attempting to
+/// connect. Once the connection is established, the hisory items are immediately logged.
+/// </summary>
+class HistoryItem {
+    private String _name;
+    private String _level;
+
+    public HistoryItem(String log, String level) {
+        this.Log = log;
+        this.Level = level;
+    }
+
+    public String Log {
+        get {
+            return _name;
+        }
+        set {
+            _name = value;
+        }
+    }
+
+    public String Level {
+        get {
+            return _level;
+        }
+        set {
+            _level = value;
+        }
+    }
+}
+
+#endregion
