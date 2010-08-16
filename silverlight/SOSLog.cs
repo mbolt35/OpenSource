@@ -290,7 +290,7 @@ public class SOSLog {
     /// This class contains a log that is made while the socket connection has not been made, but is attempting to
     /// connect. Once the connection is established, the hisory items are immediately logged.
     /// </summary>
-    class HistoryItem {
+    private class HistoryItem {
         private String _name;
         private String _level;
 
