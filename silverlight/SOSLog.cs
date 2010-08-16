@@ -69,7 +69,10 @@ using System.Collections.Generic;
 /// </code>
 /// </example>
 /// </summary>
+/// <author>Matt Bolt, Electrotank(C) 2010</author>
 public class SOSLog {
+
+    #region Singleton Class Members
 
     private static SOSLog _instance;
 
@@ -86,19 +89,32 @@ public class SOSLog {
         }
     }
 
-    private DnsEndPoint _endPoint;
+    #endregion
 
-    private Boolean _connecting = false;
+    #region Variables
 
     private Socket _socket;
-
+    private DnsEndPoint _endPoint;
+    
     private Boolean _connected = false;
+    private Boolean _connecting = false;
 
     private List<HistoryItem> _history = new List<HistoryItem>();
 
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    /// Disallow public instantiation
+    /// </summary>
     private SOSLog() {
 
     }
+
+    #endregion
+
+    #region Methods
 
     /// <summary>
     /// This method connects to the socket output server.
@@ -155,48 +171,74 @@ public class SOSLog {
             return;
         }
 
+        Send(Serialize(FormatLogMessageFor(log, level)));
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="log"></param>
+    /// <returns></returns>
+    private String FormatLogMessageFor(String log, String level) {
         String[] lines = log.Split('\n');
         String commandType = lines.Length == 1 ? "showMessage" : "showFoldMessage";
-        String msg;
+        Boolean isMultiLine = lines.Length > 1;
 
-        if (lines.Length > 1) {
-             msg = new StringBuilder("<title>")
-                .Append(lines[0])
-                .Append("</title>")
-                .Append("<message>")
-                .Append(log.Substring(log.IndexOf('\n') + 1, log.Length))
-                .Append("</message")
-                .ToString();
-        } else {
-            msg = log;
-        }
-
-        String xmlMessage = new StringBuilder("!SOS<")
+        return new StringBuilder("!SOS<")
             .Append(commandType)
             .Append(" key=\"")
             .Append(level)
             .Append("\">")
-            .Append(msg)
+            .Append(!isMultiLine ? log : LogMessageFor(lines[0], log))
             .Append("</")
             .Append(commandType)
             .Append(">")
             .ToString();
+    }
 
-        char[] msgString = xmlMessage.ToCharArray();
-        byte[] byteArray = new byte[xmlMessage.Length + 1];
+    /// <summary>
+    /// Format the log for SOS Max.
+    /// </summary>
+    /// <param name="log"></param>
+    /// <returns></returns>
+    private String LogMessageFor(String title, String log) {
+        return new StringBuilder("<title>")
+               .Append(title)
+               .Append("</title>")
+               .Append("<message>")
+               .Append(log.Substring(log.IndexOf('\n') + 1))
+               .Append("</message>")
+               .ToString();
+    }
+
+    /// <summary>
+    /// Serializes the message into a byte array
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
+    private byte[] Serialize(String message) {
+        char[] msgString = message.ToCharArray();
+        byte[] byteArray = new byte[message.Length + 1];
 
         for (int i = 0; i < msgString.Length; ++i) {
-            byte b = (byte)msgString[i];
-
-            byteArray[i] = b;
+            byteArray[i] = (byte)msgString[i];
         }
 
         // Must terminate with a null byte!
-        byteArray[xmlMessage.Length] = 0;
+        byteArray[message.Length] = 0;
 
+        return byteArray;
+    }
+
+    /// <summary>
+    /// Sends the serialized buffer via the socket.
+    /// </summary>
+    /// <param name="buffer"></param>
+    private void Send(byte[] buffer) {
         SocketAsyncEventArgs args = new SocketAsyncEventArgs();
         args.SocketClientAccessPolicyProtocol = SocketClientAccessPolicyProtocol.Tcp;
-        args.SetBuffer(byteArray, 0, byteArray.Length);
+        args.SetBuffer(buffer, 0, buffer.Length);
         args.UserToken = _socket;
         args.RemoteEndPoint = _endPoint;
         args.Completed += (s, e) => {
@@ -208,6 +250,10 @@ public class SOSLog {
 
         _socket.SendAsync(args);
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// This read-only property represents the server host the logger connects to.
@@ -236,41 +282,42 @@ public class SOSLog {
         }
     }
 
+    #endregion
+
+    #region HistoryItem Class
+
+    /// <summary>
+    /// This class contains a log that is made while the socket connection has not been made, but is attempting to
+    /// connect. Once the connection is established, the hisory items are immediately logged.
+    /// </summary>
+    class HistoryItem {
+        private String _name;
+        private String _level;
+
+        public HistoryItem(String log, String level) {
+            this.Log = log;
+            this.Level = level;
+        }
+
+        public String Log {
+            get {
+                return _name;
+            }
+            set {
+                _name = value;
+            }
+        }
+
+        public String Level {
+            get {
+                return _level;
+            }
+            set {
+                _level = value;
+            }
+        }
+    }
+
+    #endregion
+
 }
-
-
-#region HistoryItemClass
-
-/// <summary>
-/// This class contains a log that is made while the socket connection has not been made, but is attempting to
-/// connect. Once the connection is established, the hisory items are immediately logged.
-/// </summary>
-class HistoryItem {
-    private String _name;
-    private String _level;
-
-    public HistoryItem(String log, String level) {
-        this.Log = log;
-        this.Level = level;
-    }
-
-    public String Log {
-        get {
-            return _name;
-        }
-        set {
-            _name = value;
-        }
-    }
-
-    public String Level {
-        get {
-            return _level;
-        }
-        set {
-            _level = value;
-        }
-    }
-}
-
-#endregion
