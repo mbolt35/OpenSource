@@ -55,7 +55,8 @@ namespace Bolt.AS3 {
         /// <summary>
         /// Creates a new <c>SosLogTarget</c> instance
         /// </summary>
-        public SosLogTarget() : base() {
+        public SosLogTarget()
+            : base() {
 
         }
 
@@ -109,7 +110,7 @@ namespace Bolt.AS3 {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void  OnLogEvent(object sender, LogEventArgs e) {
+        public override void OnLogEvent(object sender, LogEventArgs e) {
             LogItem log = new LogItem(e.Message);
 
             if (IncludeLevel) {
@@ -128,7 +129,7 @@ namespace Bolt.AS3 {
                 _history.Add(log);
             }
         }
-          
+
         /// <summary>
         /// 
         /// </summary>
@@ -146,7 +147,7 @@ namespace Bolt.AS3 {
                 prefix += logItem.Category + FieldSeperator;
             }
 
-            return new StringBuilder("!SOS<")
+            string str = new StringBuilder("!SOS<")
                 .Append(commandType)
                 .Append(" key=\"")
                 .Append(level)
@@ -156,6 +157,11 @@ namespace Bolt.AS3 {
                 .Append(commandType)
                 .Append(">")
                 .ToString();
+
+            Debug.WriteLine(str);
+
+            return str;
+
         }
 
         /// <summary>
@@ -164,13 +170,22 @@ namespace Bolt.AS3 {
         /// <param name="log"></param>
         /// <returns></returns>
         private String LogMessageFor(String title, String log) {
-            return new StringBuilder("<title>")
-                   .Append(title)
-                   .Append("</title>")
+            return new StringBuilder("\n<title>")
+                   .Append(ReplaceXmlSymbols(title))
+                   .Append("</title>\n")
                    .Append("<message>")
-                   .Append(log.Substring(log.IndexOf('\n') + 1, log.Length))
-                   .Append("</message>")
+                   .Append(ReplaceXmlSymbols(log.Substring(log.IndexOf('\n') + 2)))
+                   .Append("</message>\n")
                    .ToString();
+        }
+
+        /// <summary>
+        /// This method replaces the greater and less than signs with &lt; and &gt;
+        /// </summary>
+        /// <param name="str">The string used as the replacement target</param>
+        /// <returns>A new <c>String</c> containing the replacements</returns>
+        private String ReplaceXmlSymbols(String str) {
+            return str.Replace("<", "&lt;").Replace(">", "&gt;");
         }
 
         /// <summary>
