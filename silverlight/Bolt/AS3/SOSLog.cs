@@ -136,7 +136,7 @@ namespace Bolt.AS3 {
                 _connecting = false;
 
                 if (!_connected) {
-                    Debug.WriteLine("Socket Connect Error: {0}", new String[] { e.SocketError.ToString() });
+                    Debug.WriteLine("Socket Connect Error: {0}", e.SocketError.ToString());
                 } else {
                     foreach (HistoryItem item in _history) {
                         Log(item.Log, item.Level);

@@ -55,8 +55,7 @@ namespace Bolt.AS3 {
         /// <summary>
         /// Creates a new <c>SosLogTarget</c> instance
         /// </summary>
-        public SosLogTarget()
-            : base() {
+        public SosLogTarget() : base() {
 
         }
 
@@ -82,7 +81,7 @@ namespace Bolt.AS3 {
                 _connecting = false;
 
                 if (!_connected) {
-                    Debug.WriteLine("Socket Connect Error: {0}", new String[] { e.SocketError.ToString() });
+                    Debug.WriteLine("Socket Connect Error: {0}", e.SocketError.ToString());
                 } else {
                     foreach (LogItem item in _history) {
                         Send(Serialize(FormatLogMessageFor(item)));
@@ -147,7 +146,7 @@ namespace Bolt.AS3 {
                 prefix += logItem.Category + FieldSeperator;
             }
 
-            string str = new StringBuilder("!SOS<")
+            return new StringBuilder("!SOS<")
                 .Append(commandType)
                 .Append(" key=\"")
                 .Append(level)
@@ -157,11 +156,6 @@ namespace Bolt.AS3 {
                 .Append(commandType)
                 .Append(">")
                 .ToString();
-
-            Debug.WriteLine(str);
-
-            return str;
-
         }
 
         /// <summary>
