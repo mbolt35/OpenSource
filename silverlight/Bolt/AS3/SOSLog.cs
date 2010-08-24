@@ -192,7 +192,7 @@ namespace Bolt.AS3 {
                 .Append(" key=\"")
                 .Append(level)
                 .Append("\">")
-                .Append(!isMultiLine ? log : LogMessageFor(lines[0], log))
+                .Append(!isMultiLine ? ReplaceXmlSymbols(log) : LogMessageFor(lines[0], log))
                 .Append("</")
                 .Append(commandType)
                 .Append(">")
@@ -206,12 +206,21 @@ namespace Bolt.AS3 {
         /// <returns></returns>
         private String LogMessageFor(String title, String log) {
             return new StringBuilder("<title>")
-                   .Append(title)
+                   .Append(ReplaceXmlSymbols(title))
                    .Append("</title>")
                    .Append("<message>")
-                   .Append(log.Substring(log.IndexOf('\n') + 1))
+                   .Append(ReplaceXmlSymbols(log.Substring(log.IndexOf('\n') + 2)))
                    .Append("</message>")
                    .ToString();
+        }
+
+        /// <summary>
+        /// This method replaces the greater and less than signs with &lt; and &gt;
+        /// </summary>
+        /// <param name="str">The string used as the replacement target</param>
+        /// <returns>A new <c>String</c> containing the replacements</returns>
+        private String ReplaceXmlSymbols(String str) {
+            return str.Replace("<", "&lt;").Replace(">", "&gt;");
         }
 
         /// <summary>

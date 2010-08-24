@@ -36,7 +36,7 @@ namespace Bolt.AS3 {
     /// It's based off the AS3 SOSLogTarget written by Sönke Rohde.
     /// </summary>
     /// <author>Matt Bolt, Electrotank(C) 2010</author>
-    public class SosLogTarget : LineFormattedTarget, ILoggingTarget {
+    public class SosLogTarget: LineFormattedTarget, ILoggingTarget {
 
         #region Variables
 
