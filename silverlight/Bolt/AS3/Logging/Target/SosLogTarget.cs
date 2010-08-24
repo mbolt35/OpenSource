@@ -17,7 +17,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3 {
+namespace Bolt.AS3.Logging.Target {
 
     using System;
     using System.Text;
