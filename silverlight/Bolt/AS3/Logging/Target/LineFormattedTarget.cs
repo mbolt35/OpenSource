@@ -32,7 +32,7 @@ namespace Bolt.AS3.Logging.Target {
 
         #region Variables
 
-        private String _fieldSeperator = " ";
+        private string _fieldSeperator = " ";
         private Boolean _includeCategory;
         private Boolean _includeDate;
         private Boolean _includeLevel;
@@ -83,18 +83,18 @@ namespace Bolt.AS3.Logging.Target {
                 }
             }
 
-            String level = "";
+            string level = "";
 
             if (_includeLevel) {
-                level = String.Format("[{0}]{1}", LogUtil.LevelStringFor(e.Level), _fieldSeperator);
+                level = string.Format("[{0}]{1}", LogUtil.LevelStringFor(e.Level), _fieldSeperator);
             }
 
-            String category = _includeCategory ? ((ILogger)sender).Category + _fieldSeperator : "";
+            string category = _includeCategory ? ((ILogger)sender).Category + _fieldSeperator : "";
 
-            InternalLog(String.Format("{0}{1}{2}{3}", date.ToString(), level, category, e.Message));
+            InternalLog(string.Format("{0}{1}{2}{3}", date.ToString(), level, category, e.Message));
         }
 
-        private String PadTime(int num, Boolean millis = false) {
+        private string PadTime(int num, Boolean millis = false) {
             if (millis) {
                 if (num < 10) {
                     return "00" + num.ToString();
@@ -108,7 +108,7 @@ namespace Bolt.AS3.Logging.Target {
             return num > 9 ? num.ToString() : "0" + num.ToString();
         }
 
-        protected virtual void InternalLog(String message) {
+        protected virtual void InternalLog(string message) {
             // Override this to internally log.
         }
 
@@ -120,7 +120,7 @@ namespace Bolt.AS3.Logging.Target {
         /// This property contains the field separator character(s) for
         /// the log.
         /// </summary>
-        public String FieldSeperator {
+        public string FieldSeperator {
             get {
                 return _fieldSeperator;
             }

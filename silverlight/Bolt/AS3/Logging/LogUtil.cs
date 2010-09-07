@@ -23,20 +23,22 @@ namespace Bolt.AS3.Logging {
     using System.Windows;
     using System.Collections.Generic;
     using System.Xml;
+    using System.Reflection;
+
 
     /// <summary>
-    /// 
+    /// This class has useful static logging methods.
     /// </summary>
     /// <author>Matt Bolt [mbolt35@gmail.com]</author>
     public static class LogUtil {
 
         /// <summary>
-        /// This class returns a <c>String</c> version of the <c>LogLevel</c>. It returns UNKNOWN
+        /// This class returns a <c>string</c> version of the <c>LogLevel</c>. It returns UNKNOWN
         /// if the <c>LogLevel</c> doesn't exist.
         /// </summary>
-        /// <param name="level">The <c>LogLevel</c> to retrieve the <c>String</c> for.</param>
-        /// <returns>A meaningful <c>String</c> representation of the <c>LogLevel</c></returns>
-        public static String LevelStringFor(LogLevel level) {
+        /// <param name="level">The <c>LogLevel</c> to retrieve the <c>string</c> for.</param>
+        /// <returns>A meaningful <c>string</c> representation of the <c>LogLevel</c></returns>
+        public static string LevelStringFor(LogLevel level) {
             switch (level) {
                 case LogLevel.Info:
                     return "INFO";
@@ -58,6 +60,16 @@ namespace Bolt.AS3.Logging {
             }
 
             return "UNKNOWN";
+        }
+
+        /// <summary>
+        /// Pass this method <c>MethodBase.GetCurrentMethod()</c> from within the class you need the 
+        /// category for, and it will return the fully qualified class name to use as the logging category.
+        /// </summary>
+        /// <param name="methodBase">The <c>MethodBase</c> retrieved from the log host class.</param>
+        /// <returns>The fully qualified class name of the logging host to use as a category.</returns>
+        public static string CategoryFor(MethodBase methodBase) {
+            return methodBase.DeclaringType.FullName;
         }
 
     }

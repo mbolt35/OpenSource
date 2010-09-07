@@ -32,7 +32,7 @@ namespace Bolt.AS3.Logging {
 
         #region Variables
 
-        private String _category;
+        private string _category;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Bolt.AS3.Logging {
         /// Creates a new <c>LogLogger</c> instance using the supplied category.
         /// </summary>
         /// <param name="category">The category to use with the logger.</param>
-        public LogLogger(String category) {
+        public LogLogger(string category) {
             _category = category;
         }
 
@@ -56,8 +56,8 @@ namespace Bolt.AS3.Logging {
         /// <param name="level">The <c>LogLevel</c> to use when logging.</param>
         /// <param name="message">The message to log</param>
         /// <param name="rest">The objects to use to fill in the special formatting in the message</param>
-        public void Log(LogLevel level, String message, params object[] rest) {
-            LogEvent(this, new LogEventArgs(String.Format(message, rest), level));
+        public void Log(LogLevel level, string message, params object[] rest) {
+            LogEvent(this, new LogEventArgs(string.Format(message, rest), level));
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Bolt.AS3.Logging {
         /// <summary>
         /// This property contains the category used with the logger instance.
         /// </summary>
-        public String Category {
+        public string Category {
             get {
                 return _category;
             }

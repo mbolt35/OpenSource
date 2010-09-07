@@ -32,7 +32,7 @@ namespace Bolt.AS3.Logging.Target {
 
         private uint _loggerCount = 0;
         private LogLevel _level = LogLevel.All;
-        private List<String> _filters = new List<String>() { "*" };
+        private List<string> _filters = new List<string>() { "*" };
 
         public AbstractTarget() {
 
@@ -64,13 +64,13 @@ namespace Bolt.AS3.Logging.Target {
 
         public abstract void OnLogEvent(object sender, LogEventArgs e);
 
-        public List<String> Filters {
+        public List<string> Filters {
             get {
                 return _filters;
             }
             set {
                 if (value == null || value.Count == 0) {
-                    value = new List<String>() { "*" };
+                    value = new List<string>() { "*" };
                 }
 
                 if (_loggerCount > 0) {

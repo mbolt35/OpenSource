@@ -29,14 +29,13 @@ namespace Bolt.AS3.Logging.Target {
     using System.Collections.Generic;
 
     using Bolt.AS3.Logging;
-    using Bolt.AS3.Logging.Target;
 
     /// <summary>
     /// This class is used to send logs to the SOS Max Socket Output Server - http://sos.powerflasher.com/
     /// It's based off the AS3 SOSLogTarget written by Sönke Rohde.
     /// </summary>
     /// <author>Matt Bolt, Electrotank(C) 2010</author>
-    public class SosLogTarget: LineFormattedTarget, ILoggingTarget {
+    public class SosLogTarget : LineFormattedTarget, ILoggingTarget {
 
         #region Variables
 
@@ -68,7 +67,7 @@ namespace Bolt.AS3.Logging.Target {
         /// </summary>
         /// <param name="host">This parameter is set to the hostname to connect to.</param>
         /// <param name="port">This parameter is set to the port for the server.</param>
-        private void Connect(String host = "localhost", int port = 4444) {
+        private void Connect(string host = "localhost", int port = 4444) {
             _endPoint = new DnsEndPoint(host, port);
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _connecting = true;
@@ -81,7 +80,7 @@ namespace Bolt.AS3.Logging.Target {
                 _connecting = false;
 
                 if (!_connected) {
-                    Debug.WriteLine("Socket Connect Error: {0}", e.SocketError.ToString());
+                    Debug.WriteLine("Socket Connect Error: {0}", new string[] { e.SocketError.ToString() });
                 } else {
                     foreach (LogItem item in _history) {
                         Send(Serialize(FormatLogMessageFor(item)));
@@ -109,7 +108,7 @@ namespace Bolt.AS3.Logging.Target {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnLogEvent(object sender, LogEventArgs e) {
+        public override void  OnLogEvent(object sender, LogEventArgs e) {
             LogItem log = new LogItem(e.Message);
 
             if (IncludeLevel) {
@@ -128,18 +127,18 @@ namespace Bolt.AS3.Logging.Target {
                 _history.Add(log);
             }
         }
-
+          
         /// <summary>
         /// 
         /// </summary>
         /// <param name="log"></param>
         /// <returns></returns>
-        private String FormatLogMessageFor(LogItem logItem) {
-            String log = logItem.Log;
-            String[] lines = log.Split('\n');
-            String commandType = lines.Length == 1 ? "showMessage" : "showFoldMessage";
-            String level = LogUtil.LevelStringFor(logItem.Level);
-            String prefix = "";
+        private string FormatLogMessageFor(LogItem logItem) {
+            string log = logItem.Log;
+            string[] lines = log.Split('\n');
+            string commandType = lines.Length == 1 ? "showMessage" : "showFoldMessage";
+            string level = LogUtil.LevelStringFor(logItem.Level);
+            string prefix = "";
             Boolean isMultiLine = lines.Length > 1;
 
             if (logItem.Category != null) {
@@ -151,7 +150,7 @@ namespace Bolt.AS3.Logging.Target {
                 .Append(" key=\"")
                 .Append(level)
                 .Append("\">")
-                .Append(!isMultiLine ? prefix + log : LogMessageFor(prefix + lines[0], log))
+                .Append(!isMultiLine ? ReplaceXmlSymbols(prefix + log) : LogMessageFor(prefix + lines[0], log))
                 .Append("</")
                 .Append(commandType)
                 .Append(">")
@@ -163,7 +162,7 @@ namespace Bolt.AS3.Logging.Target {
         /// </summary>
         /// <param name="log"></param>
         /// <returns></returns>
-        private String LogMessageFor(String title, String log) {
+        private string LogMessageFor(string title, string log) {
             return new StringBuilder("\n<title>")
                    .Append(ReplaceXmlSymbols(title))
                    .Append("</title>\n")
@@ -177,8 +176,8 @@ namespace Bolt.AS3.Logging.Target {
         /// This method replaces the greater and less than signs with &lt; and &gt;
         /// </summary>
         /// <param name="str">The string used as the replacement target</param>
-        /// <returns>A new <c>String</c> containing the replacements</returns>
-        private String ReplaceXmlSymbols(String str) {
+        /// <returns>A new <c>string</c> containing the replacements</returns>
+        private string ReplaceXmlSymbols(string str) {
             return str.Replace("<", "&lt;").Replace(">", "&gt;");
         }
 
@@ -187,7 +186,7 @@ namespace Bolt.AS3.Logging.Target {
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        private byte[] Serialize(String message) {
+        private byte[] Serialize(string message) {
             char[] msgString = message.ToCharArray();
             byte[] byteArray = new byte[message.Length + 1];
 
@@ -228,7 +227,7 @@ namespace Bolt.AS3.Logging.Target {
         /// <summary>
         /// This read-only property represents the server host the logger connects to.
         /// </summary>
-        public String Host {
+        public string Host {
             get {
                 return _endPoint.Host;
             }
@@ -261,20 +260,20 @@ namespace Bolt.AS3.Logging.Target {
         /// connect. Once the connection is established, the hisory items are immediately logged.
         /// </summary>
         private class LogItem {
-            private String _name;
+            private string _name;
             private LogLevel _level;
-            private String _category;
+            private string _category;
 
-            public LogItem(String log) {
+            public LogItem(string log) {
                 this.Log = log;
             }
 
-            public LogItem(String log, LogLevel level) {
+            public LogItem(string log, LogLevel level) {
                 this.Log = log;
                 this.Level = level;
             }
 
-            public String Log {
+            public string Log {
                 get {
                     return _name;
                 }
@@ -292,7 +291,7 @@ namespace Bolt.AS3.Logging.Target {
                 }
             }
 
-            public String Category {
+            public string Category {
                 get {
                     return _category;
                 }

@@ -46,7 +46,7 @@ namespace Bolt.AS3.Logging {
         /// <summary>
         /// The log target filters
         /// </summary>
-        List<String> Filters {
+        List<string> Filters {
             get;
             set;
         }

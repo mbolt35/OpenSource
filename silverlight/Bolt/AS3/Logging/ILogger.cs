@@ -25,7 +25,9 @@ namespace Bolt.AS3.Logging {
 
 
     /// <summary>
-    /// This interface defines a 
+    /// This interface defines an implementation prototype for a logger. It contains the typical log
+    /// level shortcuts (<c>Debug</c>, <c>Info</c>, <c>Warn</c>, <c>Error</c>, <c>Fatal</c>), and a method
+    /// for custom levels, <c>Log</c>. 
     /// </summary>
     /// <author>Matt Bolt [mbolt35@gmail.com]</author>
     public interface ILogger {
@@ -36,47 +38,47 @@ namespace Bolt.AS3.Logging {
         /// <param name="level">The <c>LogLevel</c> to use when logging.</param>
         /// <param name="message">The message to log</param>
         /// <param name="rest">The objects to use to fill in the special formatting in the message</param>
-        void Log(LogLevel level, String message, params object[] rest);
+        void Log(LogLevel level, string message, params object[] rest);
 
         /// <summary>
         /// Logs a message at the debug level.
         /// </summary>
         /// <param name="message">The message to log</param>
         /// <param name="rest">The objects to use to fill in the special formatting in the message</param>
-        void Debug(String log, params object[] rest);
+        void Debug(string log, params object[] rest);
 
         /// <summary>
         /// Logs a message at the info level.
         /// </summary>
         /// <param name="message">The message to log</param>
         /// <param name="rest">The objects to use to fill in the special formatting in the message</param>
-        void Info(String log, params object[] rest);
+        void Info(string log, params object[] rest);
 
         /// <summary>
         /// Logs a message at the warning level.
         /// </summary>
         /// <param name="message">The message to log</param>
         /// <param name="rest">The objects to use to fill in the special formatting in the message</param>
-        void Warn(String log, params object[] rest);
+        void Warn(string log, params object[] rest);
 
         /// <summary>
         /// Logs a message at the error level.
         /// </summary>
         /// <param name="message">The message to log</param>
         /// <param name="rest">The objects to use to fill in the special formatting in the message</param>
-        void Error(String log, params object[] rest);
+        void Error(string log, params object[] rest);
 
         /// <summary>
         /// Logs a message at the fatal level.
         /// </summary>
         /// <param name="message">The message to log</param>
         /// <param name="rest">The objects to use to fill in the special formatting in the message</param>
-        void Fatal(String log, params object[] rest);
+        void Fatal(string log, params object[] rest);
 
         /// <summary>
         /// The logging category.
         /// </summary>
-        String Category {
+        string Category {
             get;
         }
 

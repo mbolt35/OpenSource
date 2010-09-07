@@ -33,7 +33,7 @@ namespace Bolt.AS3.Logging {
         #region Variables
 
         private LogLevel _level;
-        private String _message;
+        private string _message;
 
         #endregion
 
@@ -44,7 +44,7 @@ namespace Bolt.AS3.Logging {
         /// </summary>
         /// <param name="message">The message logged.</param>
         /// <param name="level">The <c>LogLevel</c> in which the message was logged</param>
-        public LogEventArgs(String message, LogLevel level = LogLevel.All) {
+        public LogEventArgs(string message, LogLevel level = LogLevel.All) {
             _message = message;
             _level = level;
         }
@@ -63,10 +63,10 @@ namespace Bolt.AS3.Logging {
         }
 
         /// <summary>
-        /// This property contains the <c>String</c> representaion of the
+        /// This property contains the <c>string</c> representaion of the
         /// log.
         /// </summary>
-        public String Message {
+        public string Message {
             get {
                 return _message;
             }
