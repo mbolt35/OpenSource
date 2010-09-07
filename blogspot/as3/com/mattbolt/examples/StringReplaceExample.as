@@ -93,7 +93,7 @@ package com.mattbolt.examples {
  * This class represents a data container object representing a person. For simplicity, the only properties
  * are <code>name</code> and <code>age</code>.
  *
- *  @author Matt Bolt [mbolt35&#64;gmail.com]
+ * @author Matt Bolt [mbolt35&#64;gmail.com]
  */
 class Person {
 
