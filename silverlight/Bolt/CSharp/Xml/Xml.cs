@@ -17,7 +17,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3.Xml {
+namespace Bolt.CSharp.Xml {
 
     using System;
     using System.Windows;
@@ -269,14 +269,6 @@ namespace Bolt.AS3.Xml {
         /// <param name="obj"></param>
         /// <returns></returns>
         public override bool Equals(object obj) {
-            if (obj is string) {
-                return Value.Equals((string)obj);
-            }
-
-            if (obj is Xml) {
-                return Value.Equals(((Xml)obj).Value);
-            }
-
             return base.Equals(obj);
         }
 

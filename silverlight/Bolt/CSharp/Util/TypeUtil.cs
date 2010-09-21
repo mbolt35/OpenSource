@@ -17,7 +17,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3.Util {
+namespace Bolt.CSharp.Util {
 
     using System;
     using System.Windows;
@@ -30,9 +30,9 @@ namespace Bolt.AS3.Util {
     using System.IO;
     using System.Reflection;
 
-    using Bolt.AS3.Xml;
-    using Bolt.AS3.Logging;
-    using Bolt.AS3.Logging.Target;
+    using Bolt.CSharp.Xml;
+    using Bolt.CSharp.Logging;
+    using Bolt.CSharp.Logging.Target;
 
 
     /// <summary>
@@ -66,7 +66,8 @@ namespace Bolt.AS3.Util {
         /// <param name="propertyName">The name of the property to invoke</param>
         /// <returns>An instance of the return type, <c>TResult</c></returns>
         public static TResult InvokePropertyByString<TResult>(object obj, string propertyName) {
-            PropertyInfo pInfo = obj.GetType().GetProperty(propertyName, typeof(TResult));
+            Type type = obj.GetType();
+            PropertyInfo pInfo = type.GetProperty(propertyName, typeof(TResult));
 
             return (TResult)pInfo.GetValue(obj, null);
         }

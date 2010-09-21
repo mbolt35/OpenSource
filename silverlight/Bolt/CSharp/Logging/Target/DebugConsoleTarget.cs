@@ -17,22 +17,22 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3.Logging.Target {
+namespace Bolt.CSharp.Logging.Target {
 
     using System;
     using System.Windows;
-
+    using System.Diagnostics;
 
     /// <summary>
-    /// This class is used to write logs to the .NET console.
+    /// This class is used to write logs debug console in .NET.
     /// </summary>
     /// <author>Matt Bolt [mbolt35@gmail.com]</author>
-    public class ConsoleTarget : LineFormattedTarget, ILoggingTarget {
+    public class DebugConsoleTarget : LineFormattedTarget, ILoggingTarget {
 
         /// <summary>
-        /// Creates a new <c>ConsoleTarget</c> instance.
+        /// Creates a new <c>DebugConsoleTarget</c> instance.
         /// </summary>
-        public ConsoleTarget() : base() {
+        public DebugConsoleTarget() : base() {
 
         }
 
@@ -41,7 +41,7 @@ namespace Bolt.AS3.Logging.Target {
         /// </summary>
         /// <param name="message"></param>
         protected override void  InternalLog(string message) {
-            Console.Out.WriteLine(message);
+            Debug.WriteLine(message);
         }
     }
 

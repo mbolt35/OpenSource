@@ -17,32 +17,23 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3.Logging.Target {
+namespace Bolt.CSharp.Logging {
 
     using System;
     using System.Windows;
-    using System.Diagnostics;
+    using System.Collections.Generic;
+    using System.Xml;
 
     /// <summary>
-    /// This class is used to write logs debug console in .NET.
+    /// This enumeration contains the different log levels.
     /// </summary>
     /// <author>Matt Bolt [mbolt35@gmail.com]</author>
-    public class DebugConsoleTarget : LineFormattedTarget, ILoggingTarget {
-
-        /// <summary>
-        /// Creates a new <c>DebugConsoleTarget</c> instance.
-        /// </summary>
-        public DebugConsoleTarget() : base() {
-
-        }
-
-        /// <summary>
-        /// Overrides the internal log which already has pre-appended options.
-        /// </summary>
-        /// <param name="message"></param>
-        protected override void  InternalLog(string message) {
-            Debug.WriteLine(message);
-        }
+    public enum LogLevel {
+        All = 0,
+        Debug = 2,
+        Info = 4,
+        Warn = 6,
+        Error = 8,
+        Fatal = 1000
     }
-
 }

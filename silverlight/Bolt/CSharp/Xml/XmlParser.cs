@@ -17,7 +17,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3.Xml {
+namespace Bolt.CSharp.Xml {
 
     using System;
     using System.Windows;
@@ -28,7 +28,7 @@ namespace Bolt.AS3.Xml {
     using System.IO;
     using System.Reflection;
 
-    using Bolt.AS3.Logging;
+    using Bolt.CSharp.Logging;
  
 
     /// <summary>
@@ -39,7 +39,7 @@ namespace Bolt.AS3.Xml {
 
         #region Variables
 
-        private static readonly ILogger log = Log.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.FullName);
+        private static readonly ILogger log = Log.GetLogger(LogUtil.CategoryFor(MethodBase.GetCurrentMethod()));
 
         private XmlReaderSettings _settings;
 

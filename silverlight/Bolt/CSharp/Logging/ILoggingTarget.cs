@@ -17,23 +17,46 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3.Logging {
+namespace Bolt.CSharp.Logging {
 
     using System;
     using System.Windows;
     using System.Collections.Generic;
-    using System.Xml;
+
 
     /// <summary>
-    /// This enumeration contains the different log levels.
+    /// This interface defines an implementation prototype for an object that is targetted for 
+    /// log display
     /// </summary>
     /// <author>Matt Bolt [mbolt35@gmail.com]</author>
-    public enum LogLevel {
-        All = 0,
-        Debug = 2,
-        Info = 4,
-        Warn = 6,
-        Error = 8,
-        Fatal = 1000
+    public interface ILoggingTarget {
+
+        /// <summary>
+        /// Sets up this target with the specified logger. 
+        /// </summary>
+        /// <param name="logger"></param>
+        void AddLogger(ILogger logger);
+
+        /// <summary>
+        /// Removes a logger from recieving log events. 
+        /// </summary>
+        /// <param name="logger"></param>
+        void RemoveLogger(ILogger logger);
+
+        /// <summary>
+        /// The log target filters
+        /// </summary>
+        List<string> Filters {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// The log target level.
+        /// </summary>
+        LogLevel Level {
+            get;
+            set;
+        }
     }
 }

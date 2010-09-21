@@ -17,46 +17,32 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3.Logging {
+namespace Bolt.CSharp.Logging.Target {
 
     using System;
     using System.Windows;
-    using System.Collections.Generic;
 
 
     /// <summary>
-    /// This interface defines an implementation prototype for an object that is targetted for 
-    /// log display
+    /// This class is used to write logs to the .NET console.
     /// </summary>
     /// <author>Matt Bolt [mbolt35@gmail.com]</author>
-    public interface ILoggingTarget {
+    public class ConsoleTarget : LineFormattedTarget, ILoggingTarget {
 
         /// <summary>
-        /// Sets up this target with the specified logger. 
+        /// Creates a new <c>ConsoleTarget</c> instance.
         /// </summary>
-        /// <param name="logger"></param>
-        void AddLogger(ILogger logger);
+        public ConsoleTarget() : base() {
 
-        /// <summary>
-        /// Removes a logger from recieving log events. 
-        /// </summary>
-        /// <param name="logger"></param>
-        void RemoveLogger(ILogger logger);
-
-        /// <summary>
-        /// The log target filters
-        /// </summary>
-        List<string> Filters {
-            get;
-            set;
         }
 
         /// <summary>
-        /// The log target level.
+        /// Overrides the internal log which already has pre-appended options.
         /// </summary>
-        LogLevel Level {
-            get;
-            set;
+        /// <param name="message"></param>
+        protected override void  InternalLog(string message) {
+            Console.Out.WriteLine(message);
         }
     }
+
 }

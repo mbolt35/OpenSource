@@ -17,7 +17,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3.Collections {
+namespace Bolt.CSharp.Collections {
 
     using System;
     using System.Windows;

@@ -17,7 +17,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3.Logging.Target {
+namespace Bolt.CSharp.Logging.Target {
 
     using System;
     using System.Text;
@@ -28,7 +28,7 @@ namespace Bolt.AS3.Logging.Target {
     using System.Diagnostics;
     using System.Collections.Generic;
 
-    using Bolt.AS3.Logging;
+    using Bolt.CSharp.Logging;
 
     /// <summary>
     /// This class is used to send logs to the SOS Max Socket Output Server - http://sos.powerflasher.com/

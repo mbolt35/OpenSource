@@ -17,7 +17,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3.Logging {
+namespace Bolt.CSharp.Logging {
 
     using System;
     using System.Windows;
