@@ -17,7 +17,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3 {
+namespace Bolt.CSharp {
 
     using System;
     using System.Windows;
@@ -32,10 +32,10 @@ namespace Bolt.AS3 {
     using System.Text.RegularExpressions;
     using System.Diagnostics;
 
-    using Bolt.AS3.Xml;
-    using Bolt.AS3.Logging;
-    using Bolt.AS3.Logging.Target;
-    using Bolt.AS3.Util;
+    using Bolt.CSharp.Xml;
+    using Bolt.CSharp.Logging;
+    using Bolt.CSharp.Logging.Target;
+    using Bolt.CSharp.Util;
 
 
     /// <summary>

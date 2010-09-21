@@ -17,14 +17,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Bolt.AS3 {
+namespace Bolt.CSharp {
     
     using System;
     using System.Windows;
     using System.Reflection;
 
-    using Bolt.AS3.Logging;
-    using Bolt.AS3.Logging.Target;
+    using Bolt.CSharp.Logging;
+    using Bolt.CSharp.Logging.Target;
 
 
     /// <summary>
