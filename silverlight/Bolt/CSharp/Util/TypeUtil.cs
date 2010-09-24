@@ -72,5 +72,19 @@ namespace Bolt.CSharp.Util {
             return (TResult)pInfo.GetValue(obj, null);
         }
 
+        /// <summary>
+        /// This method sets a property "dynamically" using the property name.
+        /// </summary>
+        /// <typeparam name="T">The type of the property to set.</typeparam>
+        /// <param name="obj">The object which you wish to set the property on.</param>
+        /// <param name="propertyName">The name of the property to set.</param>
+        /// <param name="propertyValue">The value to set the property to</param>
+        public static void SetPropertyByString<T>(object obj, string propertyName, T propertyValue) {
+            Type type = obj.GetType();
+            PropertyInfo pInfo = type.GetProperty(propertyName, typeof(T));
+
+            pInfo.SetValue(obj, propertyValue, null);
+        }
+
     }
 }
