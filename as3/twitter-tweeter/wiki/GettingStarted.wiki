@@ -1,0 +1,43 @@
+#summary Building your first twitter application in AS3
+#labels Twitter,Tweet,AS3,weaklistener
+
+= Introduction =
+
+This page will be updated as the more updates roll in, but for now, here is an example of how to use the TwitterTweeterBuilder class.
+
+{{{
+/**
+ * @private
+ * initializes twitter tweeter framework.
+ */
+private function initialize():void {
+    
+    new TwitterTweeterBuilder()
+        .tweetsProvidedBy(rssProvider())
+        .filteredBy(htmlFilter(), userNameFilter())
+        .renderedBy(textFieldRenderer())
+        .controlledBy(defaultController())
+        .build(onTwitterTweeterBuilt);
+        
+}
+
+/**
+ * @private
+ */
+private function onTwitterTweeterBuilt(twitterTweeter:TwitterTweeter):void {
+    _twitterTweeter = twitterTweeter;
+    _twitterTweeter.controlTweetsFor("mbolt35", 50);
+    
+    _intervalId = setInterval(tick, 5000);
+    
+    addChild(_twitterTweeter.tweetRenderCanvasFor("mbolt35"));
+}
+
+/**
+ * @private
+ */
+private function tick():void {
+    _twitterTweeter.nextTweetFor("mbolt35");
+}
+
+}}}
