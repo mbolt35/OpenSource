@@ -30,7 +30,7 @@ namespace Bolt.CSharp {
 
     /// <summary>
     /// This class is used to send logs to the SOS Max Socket Output Server - http://sos.powerflasher.com/
-    /// It's based off the AS3 SOSLogTarget written by Sönke Rohde.
+    /// It's based off the AS3 SOSLogTarget written by Sï¿½nke Rohde.
     /// 
     /// <example>This example shows how to use the SOSLog class.
     /// <code>
@@ -71,7 +71,7 @@ namespace Bolt.CSharp {
     /// </code>
     /// </example>
     /// </summary>
-    /// <author>Matt Bolt, Electrotank(C) 2010</author>
+    /// <author>Matt Bolt</author>
     public class SOSLog {
 
         #region Singleton Class Members
